@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if not imoveis %}
+        <div class="text-center">
+            <h2 class="mb-4">Imóveis de {{ cliente.get_full_name }}</h2>
+            <div class="alert alert-info">
+                Nenhum imóvel vinculado a este cliente.
+            </div>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{% url 'listar_clientes' %}" class="btn btn-secondary">Voltar</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAtribuirImovel">
+                    Vincular Imóvel
+                </button>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Imóveis de {{ cliente.get_full_name }}</h2>
+            <a href="{% url 'listar_clientes' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+
+        <div class="row">
+            {% for vinculo in imoveis %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vinculo.imovel.titulo }}</h5>
+                        <p class="card-text">
+                            <strong>Tipo:</strong> {{ vinculo.imovel.get_tipo_display }}<br>
+                            <strong>Operação:</strong> {{ vinculo.imovel.get_operacao_display }}<br>
+                            <strong>Valor:</strong> R$ {{ vinculo.imovel.valor }}<br>
+                            <strong>Área:</strong> {{ vinculo.imovel.area }}m²<br>
+                            <strong>Endereço:</strong> {{ vinculo.imovel.endereco }}<br>
+                            <strong>Vínculo desde:</strong> {{ vinculo.data_vinculo|date:"d/m/Y" }}
+                        </p>
+                        <form method="POST" action="{% url 'remover_vinculo' vinculo.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja remover este vínculo?')">
+                                Remover Vínculo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Modal para vincular novo imóvel -->
+    <div class="modal fade" id="modalAtribuirImovel" tabindex="-1" aria-labelledby="modalAtribuirImovelLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAtribuirImovelLabel">Vincular Imóvel</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Tipo</th>
+                                    <th>Operação</th>
+                                    <th>Valor</th>
+                                    <th>Área</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for imovel in imoveis_disponiveis %}
+                                <tr>
+                                    <td>{{ imovel.titulo }}</td>
+                                    <td>{{ imovel.get_tipo_display }}</td>
+                                    <td>{{ imovel.get_operacao_display }}</td>
+                                    <td>R$ {{ imovel.valor }}</td>
+                                    <td>{{ imovel.area }}m²</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'atribuir_imovel' cliente.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="imovel_id" value="{{ imovel.id }}">
+                                            <button type="submit" class="btn btn-primary btn-sm">Vincular</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">Não há imóveis disponíveis para vincular.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Meus Imóveis</h2>
+        <a href="{% url 'dashboard_cliente' %}" class="btn btn-secondary">Voltar</a>
+    </div>
+
+    {% if imoveis %}
+        <div class="row">
+            {% for vinculo in imoveis %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vinculo.imovel.titulo }}</h5>
+                        <p class="card-text">
+                            <strong>Tipo:</strong> {{ vinculo.imovel.get_tipo_display }}<br>
+                            <strong>Operação:</strong> {{ vinculo.imovel.get_operacao_display }}<br>
+                            <strong>Valor:</strong> R$ {{ vinculo.imovel.valor }}<br>
+                            <strong>Área:</strong> {{ vinculo.imovel.area }}m²<br>
+                            <strong>Endereço:</strong> {{ vinculo.imovel.endereco }}<br>
+                            <strong>Quartos:</strong> {{ vinculo.imovel.quartos }}<br>
+                            <strong>Banheiros:</strong> {{ vinculo.imovel.banheiros }}<br>
+                            <strong>Vagas de Garagem:</strong> {{ vinculo.imovel.vagas_garagem }}<br>
+                            <strong>Vínculo desde:</strong> {{ vinculo.data_vinculo|date:"d/m/Y" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Você ainda não possui imóveis vinculados.
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

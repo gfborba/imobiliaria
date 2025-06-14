@@ -1,20 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
 from usuarios.models import CustomUser
 
 # Create your models here.
-
-class Cliente(models.Model):
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    telefone = models.CharField(max_length=20)
-    cpf = models.CharField(max_length=14, unique=True)
-    endereco = models.CharField(max_length=200)
-    corretor = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    data_cadastro = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.nome
 
 class Imovel(models.Model):
     TIPO_CHOICES = [
@@ -52,3 +39,16 @@ class Imovel(models.Model):
     
     def __str__(self):
         return f"{self.titulo} - {self.get_tipo_display()} ({self.get_operacao_display()})"
+
+class ImovelCliente(models.Model):
+    imovel = models.ForeignKey(Imovel, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    data_vinculo = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('imovel', 'cliente')
+        verbose_name = 'Vínculo Imóvel-Cliente'
+        verbose_name_plural = 'Vínculos Imóvel-Cliente'
+    
+    def __str__(self):
+        return f"{self.cliente.get_full_name()} - {self.imovel.titulo}"

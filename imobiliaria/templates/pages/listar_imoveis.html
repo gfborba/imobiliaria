@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Imóveis Disponíveis</h2>
+    
+    {% if imoveis %}
+        <div class="row mt-4">
+            {% for imovel in imoveis %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ imovel.titulo }}</h5>
+                            <p class="card-text">
+                                <strong>Tipo:</strong> {{ imovel.get_tipo_display }}<br>
+                                <strong>Operação:</strong> {{ imovel.get_operacao_display }}<br>
+                                <strong>Valor:</strong> R$ {{ imovel.valor }}<br>
+                                <strong>Área:</strong> {{ imovel.area }}m²<br>
+                                <strong>Quartos:</strong> {{ imovel.quartos }}<br>
+                                <strong>Banheiros:</strong> {{ imovel.banheiros }}<br>
+                                <strong>Vagas:</strong> {{ imovel.vagas_garagem }}<br>
+                                <strong>Endereço:</strong> {{ imovel.endereco }}
+                            </p>
+                            <p class="card-text">{{ imovel.descricao }}</p>
+                            {% if user.is_cliente %}
+                                <a href="#" class="btn btn-primary">Demonstrar Interesse</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info mt-4">
+            Não há imóveis disponíveis no momento.
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
+ 

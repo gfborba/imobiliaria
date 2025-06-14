@@ -151,3 +151,6 @@ SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Custom user model
 AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+# Login URL
+LOGIN_URL = '/auth/login/'
