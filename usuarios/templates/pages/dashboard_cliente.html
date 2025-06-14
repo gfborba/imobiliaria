@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Dashboard do Cliente</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Imóveis Disponíveis</h5>
+                    <p class="card-text">Visualize os imóveis disponíveis para compra ou aluguel.</p>
+                    <a href="{% url 'imoveis:listar' %}" class="btn btn-primary">Ver Imóveis</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Meus Interesses</h5>
+                    <p class="card-text">Visualize os imóveis que você demonstrou interesse.</p>
+                    <a href="{% url 'imoveis:interesses' %}" class="btn btn-primary">Ver Interesses</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

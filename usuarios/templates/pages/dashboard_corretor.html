@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Dashboard do Corretor</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar Imóveis</h5>
+                    <p class="card-text">Adicione, edite ou remova imóveis do sistema.</p>
+                    <a href="{% url 'imoveis:cadastrar' %}" class="btn btn-primary">Cadastrar Imóvel</a>
+                    <a href="{% url 'imoveis:listar' %}" class="btn btn-secondary mt-2">Ver Imóveis</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar Clientes</h5>
+                    <p class="card-text">Visualize e gerencie seus clientes.</p>
+                    <a href="{% url 'clientes:listar' %}" class="btn btn-primary">Ver Clientes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

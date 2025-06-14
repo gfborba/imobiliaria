@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Cadastro de Cliente</h1>
+    <form class="form-auth" id="form-register" action="{% url 'cadastro_cliente' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-input" type="text" placeholder="Nome Completo" name="nome" required>
+        </div>
+        <div class="form-group">
+            <input class="form-input" type="email" placeholder="E-mail" name="email" required>
+        </div>
+        <div class="form-group">
+            <input class="form-input" type="tel" placeholder="Telefone" name="telefone" required>
+        </div>
+        <div class="form-group">
+            <input class="form-input" type="text" placeholder="CPF" name="cpf" required>
+        </div>
+        <div class="form-group">
+            <input class="form-input" type="text" placeholder="Endereço" name="endereco" required>
+        </div>
+        <button class="button" type="submit">Cadastrar Cliente</button>
+        
+        {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
