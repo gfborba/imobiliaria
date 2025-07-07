@@ -1,36 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="property-list-container">
     <h2>Meus Interesses</h2>
-    
     {% if interesses %}
-        <div class="row mt-4">
+        <div class="property-list-row">
             {% for interesse in interesses %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ interesse.imovel.titulo }}</h5>
-                            <p class="card-text">
-                                <strong>Tipo:</strong> {{ interesse.imovel.get_tipo_display }}<br>
-                                <strong>Operação:</strong> {{ interesse.imovel.get_operacao_display }}<br>
-                                <strong>Valor:</strong> R$ {{ interesse.imovel.valor }}<br>
-                                <strong>Área:</strong> {{ interesse.imovel.area }}m²<br>
-                                <strong>Endereço:</strong> {{ interesse.imovel.endereco }}
-                            </p>
-                            <p class="card-text">
-                                <strong>Data do Interesse:</strong> {{ interesse.data_interesse|date:"d/m/Y" }}
-                            </p>
-                            <a href="#" class="btn btn-danger">Remover Interesse</a>
-                        </div>
-                    </div>
+                <div class="property-list-card">
+                    <h5>{{ interesse.imovel.titulo }}</h5>
+                    <p>
+                        <strong>Tipo:</strong> {{ interesse.imovel.get_tipo_display }}<br>
+                        <strong>Operação:</strong> {{ interesse.imovel.get_operacao_display }}<br>
+                        <strong>Valor:</strong> R$ {{ interesse.imovel.valor }}<br>
+                        <strong>Área:</strong> {{ interesse.imovel.area }}m²<br>
+                        <strong>Endereço:</strong> {{ interesse.imovel.endereco }}
+                    </p>
+                    <p>
+                        <strong>Data do Interesse:</strong> {{ interesse.data_interesse|date:"d/m/Y" }}
+                    </p>
+                    <form method="post" action="{% url 'remover_interesse' interesse.id %}" style="width:100%;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja remover este interesse?')">Remover Interesse</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <div class="alert alert-info mt-4">
+        <div class="property-list-alert">
             Você ainda não demonstrou interesse em nenhum imóvel.
         </div>
     {% endif %}
 </div>
-{% endblock content %} 
+{% endblock %} 

@@ -1,91 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="property-form-container">
     <h2>Cadastrar Novo Imóvel</h2>
-    
-    <div class="card mt-4">
-        <div class="card-body">
-            <form method="POST">
-                {% csrf_token %}
-                
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="titulo" class="form-label">Título</label>
-                        <input type="text" class="form-control" id="titulo" name="titulo" required>
-                    </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <label for="tipo" class="form-label">Tipo</label>
-                        <select class="form-select" id="tipo" name="tipo" required>
-                            <option value="">Selecione...</option>
-                            <option value="CASA">Casa</option>
-                            <option value="APARTAMENTO">Apartamento</option>
-                            <option value="COMERCIAL">Comercial</option>
-                            <option value="TERRENO">Terreno</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="operacao" class="form-label">Operação</label>
-                        <select class="form-select" id="operacao" name="operacao" required>
-                            <option value="">Selecione...</option>
-                            <option value="VENDA">Venda</option>
-                            <option value="ALUGUEL">Aluguel</option>
-                        </select>
-                    </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <label for="valor" class="form-label">Valor</label>
-                        <input type="number" class="form-control" id="valor" name="valor" step="0.01" required>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="endereco" class="form-label">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" name="endereco" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="descricao" class="form-label">Descrição</label>
-                    <textarea class="form-control" id="descricao" name="descricao" rows="3" required></textarea>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="area" class="form-label">Área (m²)</label>
-                        <input type="number" class="form-control" id="area" name="area" step="0.01" required>
-                    </div>
-                    
-                    <div class="col-md-3 mb-3">
-                        <label for="quartos" class="form-label">Quartos</label>
-                        <input type="number" class="form-control" id="quartos" name="quartos" required>
-                    </div>
-                    
-                    <div class="col-md-3 mb-3">
-                        <label for="banheiros" class="form-label">Banheiros</label>
-                        <input type="number" class="form-control" id="banheiros" name="banheiros" required>
-                    </div>
-                    
-                    <div class="col-md-3 mb-3">
-                        <label for="vagas_garagem" class="form-label">Vagas de Garagem</label>
-                        <input type="number" class="form-control" id="vagas_garagem" name="vagas_garagem" required>
-                    </div>
-                </div>
-
-                {% if error %}
-                    <div class="alert alert-danger mt-3">
-                        {{ error }}
-                    </div>
-                {% endif %}
-
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">Cadastrar Imóvel</button>
-                </div>
-            </form>
+    <form method="POST" class="property-form">
+        {% csrf_token %}
+        <div class="form-row">
+            <div>
+                <label for="titulo">Título</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+            <div>
+                <label for="tipo">Tipo</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="">Selecione...</option>
+                    <option value="CASA">Casa</option>
+                    <option value="APARTAMENTO">Apartamento</option>
+                    <option value="COMERCIAL">Comercial</option>
+                    <option value="TERRENO">Terreno</option>
+                </select>
+            </div>
         </div>
-    </div>
+        <div class="form-row">
+            <div>
+                <label for="operacao">Operação</label>
+                <select id="operacao" name="operacao" required>
+                    <option value="">Selecione...</option>
+                    <option value="VENDA">Venda</option>
+                    <option value="ALUGUEL">Aluguel</option>
+                </select>
+            </div>
+            <div>
+                <label for="valor">Valor</label>
+                <input type="number" id="valor" name="valor" step="0.01" required>
+            </div>
+        </div>
+        <div>
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" required>
+        </div>
+        <div>
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" name="descricao" rows="3" required></textarea>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="area">Área (m²)</label>
+                <input type="number" id="area" name="area" step="0.01" required>
+            </div>
+            <div>
+                <label for="quartos">Quartos</label>
+                <input type="number" id="quartos" name="quartos" required>
+            </div>
+            <div>
+                <label for="banheiros">Banheiros</label>
+                <input type="number" id="banheiros" name="banheiros" required>
+            </div>
+            <div>
+                <label for="vagas_garagem">Vagas de Garagem</label>
+                <input type="number" id="vagas_garagem" name="vagas_garagem" required>
+            </div>
+        </div>
+        {% if error %}
+            <div class="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Cadastrar Imóvel</button>
+    </form>
 </div>
 {% endblock %} 

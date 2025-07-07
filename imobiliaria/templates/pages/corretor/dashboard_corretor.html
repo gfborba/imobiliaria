@@ -1,27 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="dashboard-container">
     <h2>Dashboard do Corretor</h2>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gerenciar Imóveis</h5>
-                    <p class="card-text">Adicione, edite ou remova imóveis do sistema.</p>
-                    <a href="{% url 'cadastrar_imovel' %}" class="btn btn-primary">Cadastrar Imóvel</a>
-                    <a href="{% url 'listar_imoveis' %}" class="btn btn-secondary mt-2">Ver Imóveis</a>
-                </div>
-            </div>
+    <div class="dashboard-row">
+        <div class="dashboard-card">
+            <h5>Gerenciar Imóveis</h5>
+            <p>Adicione, edite ou remova imóveis do sistema.</p>
+            <a href="{% url 'cadastrar_imovel' %}" class="btn btn-primary">Cadastrar Imóvel</a>
+            <a href="{% url 'listar_imoveis' %}" class="btn btn-secondary">Ver Imóveis</a>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gerenciar Clientes</h5>
-                    <p class="card-text">Visualize e gerencie seus clientes.</p>
-                    <a href="{% url 'listar_clientes' %}" class="btn btn-primary">Ver Clientes</a>
-                </div>
-            </div>
+        <div class="dashboard-card">
+            <h5>Gerenciar Clientes</h5>
+            <p>Visualize e gerencie seus clientes.</p>
+            <a href="{% url 'listar_clientes' %}" class="btn btn-primary">Ver Clientes</a>
         </div>
     </div>
 </div>
