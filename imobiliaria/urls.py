@@ -11,6 +11,8 @@ urlpatterns = [
     path('imoveis/cadastrar/', views.cadastrar_imovel, name='cadastrar_imovel'),
     path('imoveis/listar/', views.listar_imoveis, name='listar_imoveis'),
     path('interesses/', views.interesses, name='interesses'),
+    path('imoveis/<int:imovel_id>/demonstrar-interesse/', views.demonstrar_interesse, name='demonstrar_interesse'),
+    path('interesses/<int:interesse_id>/remover/', views.remover_interesse, name='remover_interesse'),
     
     #Gerenciamento de clientes
     path('clientes/listar/', views.listar_clientes, name='listar_clientes'),

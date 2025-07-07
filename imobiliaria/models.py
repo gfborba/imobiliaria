@@ -52,3 +52,16 @@ class ImovelCliente(models.Model):
     
     def __str__(self):
         return f"{self.cliente.get_full_name()} - {self.imovel.titulo}"
+
+class Interesse(models.Model):
+    imovel = models.ForeignKey(Imovel, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    data_interesse = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('imovel', 'cliente')
+        verbose_name = 'Interesse'
+        verbose_name_plural = 'Interesses'
+    
+    def __str__(self):
+        return f"{self.cliente.get_full_name()} - {self.imovel.titulo}"

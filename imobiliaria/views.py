@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from functools import wraps
-from .models import Imovel, ImovelCliente
+from .models import Imovel, ImovelCliente, Interesse
 from usuarios.models import CustomUser
 
 #Página inicial
@@ -23,9 +23,39 @@ def dashboard_cliente(request):
 
 #Interesses do cliente
 @login_required
+@user_passes_test(is_cliente, login_url=None)
 def interesses(request):
-    interesses = []
+    interesses = Interesse.objects.filter(cliente=request.user)
     return render(request, 'pages/cliente/interesses.html', {'interesses': interesses})
+
+#Demonstrar interesse em um imóvel
+@login_required
+@user_passes_test(is_cliente, login_url=None)
+def demonstrar_interesse(request, imovel_id):
+    if request.method == "POST":
+        imovel = get_object_or_404(Imovel, id=imovel_id)
+        
+        try:
+            Interesse.objects.create(cliente=request.user, imovel=imovel)
+            messages.success(request, f'Interesse registrado no imóvel "{imovel.titulo}"!')
+        except Exception as e:
+            messages.error(request, 'Você já demonstrou interesse neste imóvel.')
+        
+        return redirect('listar_imoveis')
+    
+    return redirect('listar_imoveis')
+
+#Remover interesse em um imóvel
+@login_required
+@user_passes_test(is_cliente, login_url=None)
+def remover_interesse(request, interesse_id):
+    if request.method == "POST":
+        interesse = get_object_or_404(Interesse, id=interesse_id, cliente=request.user)
+        interesse.delete()
+        messages.success(request, 'Interesse removido com sucesso!')
+        return redirect('interesses')
+    
+    return redirect('interesses')
 
 #Imóveis vinculados ao cliente
 @login_required
@@ -111,7 +141,17 @@ def cadastrar_imovel(request):
 @login_required
 def listar_imoveis(request):
     imoveis = Imovel.objects.filter(status='DISPONIVEL')
-    return render(request, 'pages/listar_imoveis.html', {'imoveis': imoveis})
+    # Verificar quais imóveis o usuário já demonstrou interesse
+    if request.user.is_cliente():
+        interesses_usuario = Interesse.objects.filter(cliente=request.user)
+        imoveis_com_interesse = [interesse.imovel.id for interesse in interesses_usuario]
+    else:
+        imoveis_com_interesse = []
+    
+    return render(request, 'pages/listar_imoveis.html', {
+        'imoveis': imoveis,
+        'imoveis_com_interesse': imoveis_com_interesse
+    })
 
 
 #Gerenciamento de clientes

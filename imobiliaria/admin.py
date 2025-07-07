@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Imovel, ImovelCliente
+from .models import Imovel, ImovelCliente, Interesse
 
 @admin.register(Imovel)
 class ImovelAdmin(admin.ModelAdmin):
@@ -16,6 +16,26 @@ class ImovelClienteAdmin(admin.ModelAdmin):
     search_fields = ('cliente__first_name', 'cliente__last_name', 'cliente__email', 'imovel__titulo', 'imovel__endereco')
     ordering = ('-data_vinculo',)
     readonly_fields = ('data_vinculo',)
+
+    def tipo_imovel(self, obj):
+        return obj.imovel.get_tipo_display()
+    tipo_imovel.short_description = 'Tipo do Imóvel'
+
+    def operacao_imovel(self, obj):
+        return obj.imovel.get_operacao_display()
+    operacao_imovel.short_description = 'Operação'
+
+    def valor_imovel(self, obj):
+        return f'R$ {obj.imovel.valor}'
+    valor_imovel.short_description = 'Valor'
+
+@admin.register(Interesse)
+class InteresseAdmin(admin.ModelAdmin):
+    list_display = ('cliente', 'imovel', 'data_interesse', 'tipo_imovel', 'operacao_imovel', 'valor_imovel')
+    list_filter = ('data_interesse', 'imovel__tipo', 'imovel__operacao')
+    search_fields = ('cliente__first_name', 'cliente__last_name', 'cliente__email', 'imovel__titulo', 'imovel__endereco')
+    ordering = ('-data_interesse',)
+    readonly_fields = ('data_interesse',)
 
     def tipo_imovel(self, obj):
         return obj.imovel.get_tipo_display()
